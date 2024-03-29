@@ -6,16 +6,18 @@ services:
       context: ./app
       dockerfile: Dockerfile
     ports:
-      - '80:8000'
+      - '80:80'
+    volumes:
+      - ./app:/app
     depends_on:
       - redis
     
   redis:
     image: redis:6.2-alpine
     restart: always
-    ports:
-      - '6379:6379'
-    command: redis-server --save 20 1 --loglevel warning --requirepass qwertyuiop
+    environment:
+      - REDIS_PASSWORD=my-password
+      - REDIS_PORT=6379
     volumes: 
       - redis:/data
 volumes:
